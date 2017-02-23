@@ -124,6 +124,7 @@ var render, scene, camera;
 var MercuryGeometry, MercuryMaterial, Mercury;
 var Venus, VenusMaterial, VenusGeometry;
 var EarthGeometry, EarthMaterial, Earth;
+var EarthAtmGeometry, EartAtmhMaterial, EarthAtm;
 var MarsGeometry, MarsMaterial, Mars;
 var JupiterGeometry, JupiterMaterial, Jupiter;
 var SaturnGeometry, SaturnMaterial, Saturn;
@@ -187,7 +188,15 @@ function init(){
 	Earth.rotation.z = -0.4;
 	Earth.position.x = 2000;
 	
-
+	EarthAtmGeometry = new THREE.SphereGeometry(70, 40, 40);
+	var textureAtm = new THREE.Texture();
+	var TextureAtmLoader = new THREE.TextureLoader();
+	textureAtm = TextureAtmLoader.load('Sources/earthAtm.png');
+	EartAtmhMaterial = new THREE.MeshBasicMaterial({map: textureAtm, overdraw: true, transparent: true});
+	EarthAtm = new THREE.Mesh(EarthAtmGeometry, EartAtmhMaterial);
+	
+	EarthAtm.rotation.z = -0.4;
+	EarthAtm.position.x = 2000;
 	//scene.add(Earth);
 	
 	//Mars
@@ -254,32 +263,39 @@ function init(){
 	starsGeometry = new THREE.Geometry();
 	starsMaterial = new THREE.PointsMaterial({color:0x9999bb, size:1, sizeAttenuation: false});
 	
-	for(var i=0; i<15000; i++){
+	for(var i=0; i<50000; i++){
 		var vertex = new THREE.Vector3();
-		vertex.x = Math.random()*2-1;
-		vertex.y = Math.random()*2-1;
-		vertex.z = Math.random()*2-1;
-		vertex.multiplyScalar(9300);
+		vertex.x = THREE.Math.randFloatSpread(-500000, 500000);
+		vertex.y = THREE.Math.randFloatSpread(-500000, 500000);
+		vertex.z = THREE.Math.randFloatSpread(-500000, 500000);
+		if( vertex.x < 50000 && vertex.x > -50000 &&
+		  	vertex.y < 50000 && vertex.y > -50000 &&
+		  	vertex.z < 50000 && vertex.z > -50000 ){
+			vertex.x = vertex.y =vertex.z = 0;
+		}
+		
 		starsGeometry.vertices.push(vertex);
 	}
 	
 	stars = new THREE.Points(starsGeometry, starsMaterial);
 	
 	
-	scene.add(Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptun, stars);
+	scene.add(Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptun, stars, EarthAtm);
 	
 	
 	
-	render = new THREE.WebGLRenderer({antialias: true});
+	render = new THREE.WebGLRenderer({antialias: true, alpha: true});
 	render.setSize(width,height);
 	render.setClearColor(0x000000);
+	render.shadowMap.enabled = true;
 	//render.shadowMapType = THREE.PCFSoftShadowMap;
 	container.appendChild(render.domElement);
 	
 	var angle = 0;
 	
 	var controls = new THREE.TrackballControls( camera );
-	
+	controls.minDistance = 1400;		//Set Camera max distance to target
+	controls.maxDistance = 20000;	//Set Camera max distance to target
 	
 	animate();
 	
@@ -354,6 +370,11 @@ function init(){
 		Earth.position.z = Math.cos(angle*0.1)*2000;
 		Earth.rotation.y += 0.01;
 		
+		EarthAtm.position.y = Math.sin(angle*0.1)*200;
+		EarthAtm.position.x = Math.sin(angle*0.1)*2400;
+		EarthAtm.position.z = Math.cos(angle*0.1)*2000;
+		EarthAtm.rotation.y += 0.01;
+		
 		Mars.position.y = Math.cos(angle*0.098)*200;
 		Mars.position.x = Math.sin(angle*0.098)*2800;
 		Mars.position.z = Math.cos(angle*0.098)*2100;
@@ -379,7 +400,15 @@ function init(){
 		Neptun.position.z = Math.cos(angle*0.038)*4350;
 		Neptun.rotation.y += 0.0081;
 		
-		
+		if(camera.position.x > 15000 || camera.position.y > 15000 ||  camera.position.z > 15000 ){
+			camera.position.x = camera.position.x;
+			camera.position.y = camera.position.y;
+			camera.position.z = camera.position.z;
+		}else if(camera.position.x < -15000 ||camera.position.y < -15000 ||camera.position.z < -15000){
+			camera.position.x += 500;
+			camera.position.y += 500;
+			camera.position.z += 500;
+		}
 		
 		angle += Math.PI/180*2;
 		

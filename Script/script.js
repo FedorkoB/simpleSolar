@@ -169,6 +169,12 @@ function init(){
 	var UnivMeterial = new THREE.MeshNormalMaterial(0x5102a3);
 	
 	
+	
+	/*
+	PLANETS
+	*/
+	
+	
 	//Mercury
 	MercuryGeometry = new THREE.SphereGeometry(24.4, 25, 25);
 	var MercuryTexture = new THREE.Texture();
@@ -181,23 +187,6 @@ function init(){
 	
 	
 	
-	MercuryOrbitGeometry = new THREE.Geometry();
-	MercuryOrbitMaterial = new THREE.PointsMaterial({color: 0xbb00bb, size: 2});
-	for(var i=0; i<150; i++){
-		var vertex = new THREE.Vector3();
-		vertex.x = Math.sin(i)*1670;
-		vertex.y = Math.sin(i)*(-100);
-		vertex.z = Math.cos(i)*1500;
-		
-		MercuryOrbitGeometry.vertices.push(vertex);
-	};
-	
-		
-	MercuryOrbit = new THREE.Points(MercuryOrbitGeometry, MercuryOrbitMaterial);
-	
-	//scene.add(Mercury);
-	
-
 	
 	//Venus
 	VenusGeometry = new THREE.SphereGeometry(60.5, 40, 40);
@@ -207,24 +196,8 @@ function init(){
 	VenusMaterial = new THREE.MeshBasicMaterial({map: VenusTexture, overdraw: true});
 	Venus = new THREE.Mesh(VenusGeometry, VenusMaterial);
 	Venus.rotation.z = -0.3;
-	
-	
-	
-	VenusOrbitGeometry = new THREE.Geometry();
-	VenusOrbitMaterial = new THREE.PointsMaterial({color: 0xaaaa00, size: 2});
-	for(var i=0; i<300; i++){
-		var vertex = new THREE.Vector3();
-		vertex.x = Math.sin(i)*1880;
-		vertex.y = Math.sin(i)*300;
-		vertex.z = Math.cos(i)*2280;
-		
-		VenusOrbitGeometry.vertices.push(vertex);
-	}
-	VenusOrbit = new THREE.Points(VenusOrbitGeometry, VenusOrbitMaterial);
 
-	//scene.add(Venus);
-	
-	// Earth
+	//Earth
 	EarthGeometry = new THREE.SphereGeometry(64, 70, 70);
 	var texture = new THREE.Texture();
 	var textureloader = new THREE.TextureLoader();
@@ -253,19 +226,6 @@ function init(){
 	
 	Moon.geometry.applyMatrix(new THREE.Matrix4().makeTranslation( Earth.position.x+200, Earth.position.y, Earth.position.z ) );
 	
-	EarthOrbitGeometry = new THREE.Geometry();
-	EarthOrbitMaterial = new THREE.PointsMaterial({color: 0x00aaff, size: 2});
-	for(var i=0; i<350; i++){
-		var vertex = new THREE.Vector3();
-		vertex.x = Math.sin(i)*2400;
-		vertex.y = Math.sin(i)*400;
-		vertex.z = Math.cos(i)*2600;
-		
-		EarthOrbitGeometry.vertices.push(vertex);
-	}
-	EarthOrbit = new THREE.Points(EarthOrbitGeometry, EarthOrbitMaterial);
-	
-	//scene.add(Earth);
 	
 	//Mars
 	MarsGeometry = new THREE.SphereGeometry(34, 70, 70);
@@ -275,37 +235,6 @@ function init(){
 	MarsMaterial = new THREE.MeshBasicMaterial({map: MarsTexture, overdraw: true});
 	Mars = new THREE.Mesh(MarsGeometry, MarsMaterial);
 	Mars.rotation.z = -0.44;
-	
-	
-	MarsOrbitGeometry = new THREE.Geometry();
-	MarsOrbitMaterial = new THREE.PointsMaterial({color: 0xff0000, size: 2});
-	for(var i=0; i<350; i++){
-		var vertex = new THREE.Vector3();
-		vertex.x = Math.sin(i)*3080;
-		vertex.y = Math.cos(i)*200;
-		vertex.z = Math.cos(i)*3480;
-		
-		MarsOrbitGeometry.vertices.push(vertex);
-	}
-	MarsOrbit = new THREE.Points(MarsOrbitGeometry, MarsOrbitMaterial);
-
-	//scene.add(Mars);
-	
-	AsteroidBeltGeometry = new THREE.Geometry();
-	AsteroidBeltMaterial = new THREE.PointsMaterial({size:2.5, color: 0x774220, sizeAttenuation: false});
-	for(var i=0; i<5000; i++){
-		var vertex = new THREE.Vector3();
-		
-			var ran = Math.floor(Math.random() * (6401 - 4300)) + 4300;
-		
-			vertex.y = THREE.Math.randFloatSpread(-120,120);
-			vertex.x = Math.sin(i)*ran;
-			vertex.z = Math.cos(i)*ran;
-		
-				
-		AsteroidBeltGeometry.vertices.push(vertex);
-	}
-	AsteroidBelt = new THREE.Points(AsteroidBeltGeometry, AsteroidBeltMaterial);
 	
 	
 	//Jupiter
@@ -318,21 +247,6 @@ function init(){
 	Jupiter.rotation.z = -0.34;
 	
 	
-	JupiterOrbitGeometry = new THREE.Geometry();
-	JupiterOrbitMaterial = new THREE.PointsMaterial({color: 0xb6a392, size: 2});
-	for(var i=0; i<378; i++){
-		var vertex = new THREE.Vector3();
-		vertex.x = Math.sin(i)*8980;
-		vertex.y = Math.sin(i)*350;
-		vertex.z = Math.cos(i)*8580;
-		
-		JupiterOrbitGeometry.vertices.push(vertex);
-	}
-	JupiterOrbit = new THREE.Points(JupiterOrbitGeometry, JupiterOrbitMaterial);
-	
-
-	//scene.add(Jupiter);
-	
 	//Saturn
 	SaturnGeometry = new THREE.SphereGeometry(87, 70, 70);
 	var SaturnTexrure = new THREE.Texture();
@@ -343,7 +257,7 @@ function init(){
 	Saturn.rotation.z = -0.444;
 
 	var satCircGeometry = new THREE.Geometry();
-	for(var i=0; i<400000; i++){
+	for(var i=0; i<200000; i++){
 		var vertex = new THREE.Vector3();
 		var ran = Math.floor(Math.random() * (250 - 190)) + 190;
 		
@@ -383,14 +297,126 @@ function init(){
 	
 	var satCircMesh, satCircMesh1, satCircMesh2;
 	
-	var satCircMaterial = new THREE.PointsMaterial({size: 1, color: 0xe3d2aa, opacity: 0.7});
-	var satCircMaterial1 = new THREE.PointsMaterial({size: 1, color: 0xe0d0a5});
+	var satCircMaterial = new THREE.PointsMaterial({size: 1, color: 0xd3c29a, opacity: 0.7});
+	var satCircMaterial1 = new THREE.PointsMaterial({size: 1, color: 0xb09055});
 	var satCircMaterial2 = new THREE.PointsMaterial({linewidth: 2, color: 0xe3d2aa, opacity: 0.3});
 	
 	satCircMesh = new THREE.Points(satCircGeometry, satCircMaterial);
 	satCircMesh1 = new THREE.Points(satCircGeometry1, satCircMaterial1);
 	satCircMesh2 = new THREE.Points(satCircGeometry2, satCircMaterial2);
+	
+	
+	//Uran
+	UranusGeometry = new THREE.SphereGeometry(25, 65, 65);
+	var UranusTexture = new THREE.Texture();
+	var UTLoader = new THREE.TextureLoader();
+	UranusTexture = UTLoader.load('Sources/uranuslow.png');
+	UranusMaterial = new THREE.MeshBasicMaterial({map: UranusTexture, overdraw: true, opacity: 0.8});
+	Uranus = new THREE.Mesh(UranusGeometry, UranusMaterial);
+	Uranus.rotation.z = -0.244;
+	
+	
+	//Neptun
+	NeptunGeometry = new THREE.SphereGeometry(24, 54, 54);
+	var NeptunTexture = new THREE.Texture();
+	var NTLoader = new THREE.TextureLoader()
+	NeptunTexture = NTLoader.load('Sources/neptune.jpg');
+	NeptunMaterial = new THREE.MeshBasicMaterial({map: NeptunTexture, overdraw: true});
+	
+	Neptun = new THREE.Mesh(NeptunGeometry, NeptunMaterial);
+	Neptun.rotation.z = -0.25;
+	//Sun
+	SunGeometry = new THREE.SphereGeometry(1000, 100, 100);
+	var SunTexture	= new THREE.Texture();
+	var STLoader	= new THREE.TextureLoader();
+	SunTexture = STLoader.load('Sources/suncyl1.jpg');
+	
+	SunMaterial = new THREE.MeshBasicMaterial({map: SunTexture, overdraw: true});
+	Sun = new THREE.Mesh(SunGeometry, SunMaterial);
+	
+	
+	
+	/*
+	
+	ORBITS
+	
+	*/
+	
+	
+	//Mercury Orbit
+	MercuryOrbitGeometry = new THREE.Geometry();
+	MercuryOrbitMaterial = new THREE.PointsMaterial({color: 0xbb00bb, size: 2});
+	for(var i=0; i<150; i++){
+		var vertex = new THREE.Vector3();
+		vertex.x = Math.sin(i)*1670;
+		vertex.y = Math.sin(i)*(-100);
+		vertex.z = Math.cos(i)*1500;
 		
+		MercuryOrbitGeometry.vertices.push(vertex);
+	};
+	
+		
+	MercuryOrbit = new THREE.Points(MercuryOrbitGeometry, MercuryOrbitMaterial);
+		
+	
+	//Venus Orbit
+	VenusOrbitGeometry = new THREE.Geometry();
+	VenusOrbitMaterial = new THREE.PointsMaterial({color: 0xaaaa00, size: 2});
+	for(var i=0; i<300; i++){
+		var vertex = new THREE.Vector3();
+		vertex.x = Math.sin(i)*1880;
+		vertex.y = Math.sin(i)*300;
+		vertex.z = Math.cos(i)*2280;
+		
+		VenusOrbitGeometry.vertices.push(vertex);
+	}
+	VenusOrbit = new THREE.Points(VenusOrbitGeometry, VenusOrbitMaterial);
+
+	
+	//Earth Orbit
+	EarthOrbitGeometry = new THREE.Geometry();
+	EarthOrbitMaterial = new THREE.PointsMaterial({color: 0x00aaff, size: 2});
+	for(var i=0; i<350; i++){
+		var vertex = new THREE.Vector3();
+		vertex.x = Math.sin(i)*2400;
+		vertex.y = Math.sin(i)*400;
+		vertex.z = Math.cos(i)*2600;
+		
+		EarthOrbitGeometry.vertices.push(vertex);
+	}
+	EarthOrbit = new THREE.Points(EarthOrbitGeometry, EarthOrbitMaterial);
+	
+
+	//Mars Orbit
+	MarsOrbitGeometry = new THREE.Geometry();
+	MarsOrbitMaterial = new THREE.PointsMaterial({color: 0xff0000, size: 2});
+	for(var i=0; i<350; i++){
+		var vertex = new THREE.Vector3();
+		vertex.x = Math.sin(i)*3080;
+		vertex.y = Math.cos(i)*200;
+		vertex.z = Math.cos(i)*3480;
+		
+		MarsOrbitGeometry.vertices.push(vertex);
+	}
+	MarsOrbit = new THREE.Points(MarsOrbitGeometry, MarsOrbitMaterial);
+
+
+	//Jupiter Orbit
+	JupiterOrbitGeometry = new THREE.Geometry();
+	JupiterOrbitMaterial = new THREE.PointsMaterial({color: 0xb6a392, size: 2});
+	for(var i=0; i<378; i++){
+		var vertex = new THREE.Vector3();
+		vertex.x = Math.sin(i)*8980;
+		vertex.y = Math.sin(i)*350;
+		vertex.z = Math.cos(i)*8580;
+		
+		JupiterOrbitGeometry.vertices.push(vertex);
+	}
+	JupiterOrbit = new THREE.Points(JupiterOrbitGeometry, JupiterOrbitMaterial);
+	
+
+
+	//Saturn Orbit
 	SaturnOrbitGeometry = new THREE.Geometry();
 	SaturnOrbitMaterial = new THREE.PointsMaterial({color: 0xc5c3ce, size: 2});
 	for(var i=0; i<730; i++){
@@ -405,15 +431,8 @@ function init(){
 	SaturnOrbit = new THREE.Points(SaturnOrbitGeometry, SaturnOrbitMaterial);
 	//scene.add(Saturn);
 	
-	//Uran
-	UranusGeometry = new THREE.SphereGeometry(25, 65, 65);
-	var UranusTexture = new THREE.Texture();
-	var UTLoader = new THREE.TextureLoader();
-	UranusTexture = UTLoader.load('Sources/uranuslow.png');
-	UranusMaterial = new THREE.MeshBasicMaterial({map: UranusTexture, overdraw: true, opacity: 0.8});
-	Uranus = new THREE.Mesh(UranusGeometry, UranusMaterial);
-	Uranus.rotation.z = -0.244;
-	
+
+	//Uranus Orbit
 	UranusOrbitGeometry = new THREE.Geometry();
 	UranusOrbitMaterial = new THREE.PointsMaterial({color: 0x71a2a5, size: 2});
 	for(var i=0; i<730; i++){
@@ -425,18 +444,9 @@ function init(){
 		UranusOrbitGeometry.vertices.push(vertex);
 	}
 	UranusOrbit = new THREE.Points(UranusOrbitGeometry, UranusOrbitMaterial);
-	//
+
 	
-	//Neptun
-	NeptunGeometry = new THREE.SphereGeometry(24, 54, 54);
-	var NeptunTexture = new THREE.Texture();
-	var NTLoader = new THREE.TextureLoader()
-	NeptunTexture = NTLoader.load('Sources/neptune.jpg');
-	NeptunMaterial = new THREE.MeshBasicMaterial({map: NeptunTexture, overdraw: true});
-	
-	Neptun = new THREE.Mesh(NeptunGeometry, NeptunMaterial);
-	Neptun.rotation.z = -0.25;
-	
+	//Neptun Orbit
 	NeptunOrbitGeometry = new THREE.Geometry();
 	NeptunOrbitMaterial = new THREE.PointsMaterial({color: 0x5d7bd4, size: 2});
 	for(var i=0; i<730; i++){
@@ -450,14 +460,30 @@ function init(){
 	}
 	NeptunOrbit = new THREE.Points(NeptunOrbitGeometry, NeptunOrbitMaterial);
 	
-	//Sun
-	SunGeometry = new THREE.SphereGeometry(1000, 100, 100);
-	var SunTexture	= new THREE.Texture();
-	var STLoader	= new THREE.TextureLoader();
-	SunTexture = STLoader.load('Sources/suncyl1.jpg');
+
+	/*
 	
-	SunMaterial = new THREE.MeshBasicMaterial({map: SunTexture, overdraw: true});
-	Sun = new THREE.Mesh(SunGeometry, SunMaterial);
+	POINTS: ASTEROIDS AND STARS (except Sun);
+	
+	*/
+	
+	//Asteroids Belt
+	AsteroidBeltGeometry = new THREE.Geometry();
+	AsteroidBeltMaterial = new THREE.PointsMaterial({size:2.5, color: 0x774220, sizeAttenuation: false});
+	for(var i=0; i<5000; i++){
+		var vertex = new THREE.Vector3();
+		
+			var ran = Math.floor(Math.random() * (6401 - 4300)) + 4300;
+		
+			vertex.y = THREE.Math.randFloatSpread(-120,120);
+			vertex.x = Math.sin(i)*ran;
+			vertex.z = Math.cos(i)*ran;
+		
+				
+		AsteroidBeltGeometry.vertices.push(vertex);
+	}
+	AsteroidBelt = new THREE.Points(AsteroidBeltGeometry, AsteroidBeltMaterial);
+	
 	
 	//Stars
 	starsGeometry = new THREE.Geometry();
@@ -468,9 +494,9 @@ function init(){
 		vertex.x = THREE.Math.randFloatSpread(-500000, 500000);
 		vertex.y = THREE.Math.randFloatSpread(-500000, 500000);
 		vertex.z = THREE.Math.randFloatSpread(-500000, 500000);
-		if( vertex.x < 50000 && vertex.x > -50000 &&
-		  	vertex.y < 50000 && vertex.y > -50000 &&
-		  	vertex.z < 50000 && vertex.z > -50000 ){
+		if( vertex.x < 80000 && vertex.x > -80000 &&
+		  	vertex.y < 80000 && vertex.y > -80000 &&
+		  	vertex.z < 80000 && vertex.z > -80000 ){
 			vertex.x = vertex.y =vertex.z = 0;
 		}
 		
@@ -479,8 +505,20 @@ function init(){
 	
 	stars = new THREE.Points(starsGeometry, starsMaterial);
 	
+	/*
 	
-	scene.add(Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptun, stars, EarthAtm, Moon,AsteroidBelt, MercuryOrbit, VenusOrbit, EarthOrbit, MarsOrbit, JupiterOrbit,SaturnOrbit, UranusOrbit, NeptunOrbit, satCircMesh, satCircMesh1, satCircMesh2);
+	Scene adding
+	
+	*/
+	
+	//Planets
+	scene.add(Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptun, Moon, EarthAtm);
+	
+	//Orbits
+	scene.add(MercuryOrbit, VenusOrbit, EarthOrbit, MarsOrbit, JupiterOrbit,SaturnOrbit, UranusOrbit, NeptunOrbit);
+	
+	//points
+	scene.add(stars, AsteroidBelt,  satCircMesh, satCircMesh1, satCircMesh2);
 	
 	
 	
@@ -494,7 +532,7 @@ function init(){
 	var angle = 0;
 	
 	var controls = new THREE.TrackballControls( camera );
-	controls.minDistance = 1400;		//Set Camera max distance to target
+	controls.minDistance = 2300;		//Set Camera max distance to target
 	controls.maxDistance = 100000;	//Set Camera max distance to target
 	
 	animate();
